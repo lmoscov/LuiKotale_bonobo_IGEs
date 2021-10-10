@@ -17,16 +17,12 @@ II) Fruit consumption between habitats (Eco 2 prediction):
 
 prop_scans_fleshy_fruit.txt
 
-III) Comparison of West activity patterns during baseline, incursions and IGEs (Eco 3 and ICD/ICT 3 predictions):
+III) Comparison of West activity patterns during baseline, incursions and IGEs (Eco 3 and ICD/ICT 4 predictions):
 
 activity_scans.txt
 
 Additional data to test the inter-community dominance and tolerance hypotheses:
 
-IV) Reaction to fusions with in-group vs out-group members (ICD/ICT 1):
+IV) Reaction to fusions with in-group vs out-group members (ICT 1):
 
 post_fuse_friendly.txt
-
-V) Cortisol responses to IGEs (ICD/ICT 5):
-
-cort_responses.txt
