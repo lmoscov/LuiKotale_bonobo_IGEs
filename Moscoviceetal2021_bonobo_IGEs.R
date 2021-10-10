@@ -5,7 +5,7 @@
 library(brms)
 library(rethinking)
 
-# Do FAI scores per plot differ between East and West? (Eco 1 prediction, see results section, Table 3)
+# Do FAI scores per plot differ between East and West? (Eco 1 prediction, see results section, Table 2)
 
 FAI=read.table(file="bnb_fai_per_plot.txt",header=T, sep="\t",stringsAsFactors = T)
 
@@ -79,7 +79,7 @@ sum(post.tree$b_Habitateast>0)/length(post.tree$b_Habitateast)
 
 ###############################################
 
-# Does feeding on fleshy fruits differ between East and West (Eco 2 prediction, see results section, Table 4):
+# Does feeding on fleshy fruits differ between East and West (Eco 2 prediction, see results section, Table 3):
 
 prop.fleshy=read.table(file="prop_scans_fleshy_fruit.txt", header=T, sep="\t",stringsAsFactors = T)
 
@@ -129,7 +129,7 @@ sum(post.fleshy$b_locationEast> 0)/length(post.fleshy$b_locationEast)
 
 ##############################
 
-# do West activity scans differ among baseline, incursion and IGE contexts? (ECO 3 and ICD/ICT 3, see results section Fig 2 and ESM Table 4)
+# do West activity scans differ among baseline, incursion and IGE contexts? (ECO 3 and ICD/ICT 4, see results section Fig 2 and ESM Table 4)
 
 d<- read.table(file="activity_scans.txt", header=T, sep="\t",stringsAsFactors = T) 
 
@@ -225,7 +225,7 @@ sum(pred.act[,2,1]-pred.act[,3,1]>0)/length(pred.act[,2,2])
 
 ######################################
 
-# Likelihood of maintaining close proximity to members of joining parties in the first hour following fusions when fusions involve in-group (base) vs. out-group (IGE) members (ICD/ICT 1, see results section, Table 5)
+# Likelihood of maintaining close proximity to members of joining parties in the first hour following fusions when fusions involve in-group (base) vs. out-group (IGE) members (ICT 1, see results section, Table 5)
 
 fuse=read.table(file="post_fuse_friendly.txt",header=T, sep="\t", fill=T,stringsAsFactors = T)
 
@@ -287,27 +287,3 @@ sum(exp(post.friendly$b_fusion.typeIGE)<1)/length(post.friendly$b_fusion.typeIGE
 # [1] 0.994625
 
 ###########################################
-
-# Analysis of log cortisol concentrations (ng/ml SG) by context (ICD/ICT 5, see results section, Fig 5 and Table 6)
-
-cort=read.table(file="cort_responses.txt", header=T, sep="\t", stringsAsFactors = T) 
-
-get_prior(cort.log~context-1+time.z + (1|subj)+(1|date), data=cort, family=gaussian())
-
-prior <- c(prior(normal(0,1), class = b), 
-           prior(cauchy(0,2), class=sd),
-           prior(cauchy(0,2), class=sigma))
-
-cort.mod<-brm(cort.log~context-1+time.z + (1|subj)+(1|date), data=cort, family=gaussian(), prior=prior, sample_prior = TRUE, chains = 3, cores = 3, iter = 2000, warmup = 1000, control = list(adapt_delta = 0.99))
-
-plot(cort.mod)
-summary(cort.mod)
-
-## what's the posterior support for a difference between contexts?
-hypothesis(cort.mod, "contextEast<contextIGE") 
-# P = 0.54
-
-# simple graph
-conditional_effects(cort.mod)
-
-#############################################################
